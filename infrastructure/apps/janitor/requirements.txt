@@ -1,0 +1,3 @@
+atlassian-python-api
+requests
+pg8000
