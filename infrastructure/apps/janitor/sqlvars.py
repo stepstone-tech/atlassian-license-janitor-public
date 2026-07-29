@@ -47,7 +47,7 @@ WHERE
                 cwd_user_attributes ca
             WHERE
                 attribute_name = 'login.lastLoginMillis'
-                AND to_timestamp(CAST(ca.attribute_value as bigint) / 1000) <= current_date - INTERVAL '%s days'
+                AND to_timestamp(CAST(ca.attribute_value as bigint) / 1000) <= current_date - %s
         )
         OR u.id NOT IN (
             SELECT
@@ -142,7 +142,7 @@ FROM
 WHERE
     (
         (
-            subci.created < current_date - INTERVAL '%s days'
+            subci.created < current_date - %s
             OR subci.created is null
         )
     )
@@ -171,7 +171,7 @@ FROM
     RIGHT JOIN cwd_user u on m.username = u.user_name
 WHERE
     (
-        successdate < CURRENT_DATE - INTERVAL '%s days'
+        successdate < CURRENT_DATE - %s
         OR successdate IS NULL
     )
     AND u.active = 'T'
@@ -264,19 +264,19 @@ FROM
 WHERE
     (
         (
-            to_timestamp(CAST(cua.attribute_value AS BIGINT) / 1000) < current_date - INTERVAL '%s DAYS'
+            to_timestamp(CAST(cua.attribute_value AS BIGINT) / 1000) < current_date - %s
             AND cua.attribute_value is null
         )
         OR (
-            to_timestamp(CAST(cua.attribute_value AS BIGINT) / 1000) < current_date - INTERVAL '%s DAYS'
-            AND to_timestamp(CAST(subra.last_accessed AS BIGINT) / 1000) < current_date - INTERVAL '%s DAYS'
+            to_timestamp(CAST(cua.attribute_value AS BIGINT) / 1000) < current_date - %s
+            AND to_timestamp(CAST(subra.last_accessed AS BIGINT) / 1000) < current_date - %s
         )
         OR (
             cua.attribute_value is null
             AND subra.last_accessed is null
         )
         OR (
-            to_timestamp(CAST(subra.last_accessed AS BIGINT) / 1000) < current_date - INTERVAL '%s DAYS'
+            to_timestamp(CAST(subra.last_accessed AS BIGINT) / 1000) < current_date - %s
             AND subra.last_accessed is null
         )
     )
@@ -307,7 +307,7 @@ FROM
     "AO_C77861_AUDIT_ENTITY" AS audit
 WHERE
     audit."ACTION" = 'User added to group'
-    AND audit."SEARCH_STRING" like CONCAT('%s', ' ', '%s', '%%')
+    AND audit."SEARCH_STRING" like CONCAT(%s, ' ', %s, '%%')
     AND (
         to_timestamp(CAST(audit."ENTITY_TIMESTAMP" as bigint) / 1000) > current_date - INTERVAL '14 days'
     )

@@ -1,3 +1,4 @@
-atlassian-python-api
-requests
-pg8000
+atlassian-python-api>=3.41,<4
+requests>=2.31,<3
+pg8000>=1.30,<2
+sshtunnel>=0.4,<1
